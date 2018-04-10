@@ -1,5 +1,9 @@
 package shop;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Warenkorb
 {
     private int anzahl = 0;
@@ -36,22 +40,29 @@ public class Warenkorb
 
     public void remove(Artikel a)
     {
+        boolean allItemsDeleted;
+
         try
         {
             if (a != null)
             {
-                for (int anzahlCounter = 0; anzahlCounter < anzahl; anzahlCounter++)
+                do
                 {
-                    if (articleIsIdentical(artFeld[anzahlCounter], a))
+                    allItemsDeleted = true;
+                    for (int anzahlCounter = 0; anzahlCounter < artFeld.length; anzahlCounter++)
                     {
-                        artFeld[anzahlCounter] = artFeld[anzahl];
-                        artFeld[anzahl] = null;
-                        anzahl--;
+                        if (articleIsIdentical(artFeld[anzahlCounter], a))
+                        {
+                            --anzahl;
+                            artFeld[anzahlCounter] = artFeld[anzahl];
+                            artFeld[anzahl] = null;
+                            allItemsDeleted = false;
+                        }
                     }
-                }
+                } while (!allItemsDeleted);
+
             }
-        }
-        catch(Exception e)
+        } catch (Exception e)
         {
             System.out.println(e);
         }
@@ -59,8 +70,6 @@ public class Warenkorb
 
     private boolean articleIsIdentical(Artikel a, Artikel b)
     {
-        boolean articleIsIdentical = true;
-
         if (a == null || b == null)
         {
             return false;
@@ -76,6 +85,6 @@ public class Warenkorb
             return false;
         }
 
-        return articleIsIdentical;
+        return true;
     }
 }
